@@ -6,6 +6,7 @@ use Aws\Sqs\SqsClient;
 use Illuminate\Support\Arr;
 use Illuminate\Queue\Connectors\SqsConnector;
 use Illuminate\Queue\Jobs\SqsJob;
+use App\Services\Enelogic\EnelogicDataReceiver;
 
 class Connector extends SqsConnector
 {
