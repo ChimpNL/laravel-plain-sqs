@@ -19,12 +19,17 @@ class Connector extends SqsConnector
     {
         $config = $this->getDefaultConfiguration($config);
 
-        if ($config['key'] && $config['secret']) {
-            $config['credentials'] = Arr::only($config, ['key', 'secret']);
-        }
+        $dataReceiver = new EnelogicDataReceiver();
+        $awsCredentials = $dataReceiver->getAWSCredentials();
+        
+        $config['credentials']['key'] = $awsCredentials['awsCredentials']['accessKeyId'];
+        $config['credentials']['secret'] = $awsCredentials['awsCredentials']['secretAccessKey'];
+        $config['credentials']['token'] = $awsCredentials['awsCredentials']['sessionToken'];
 
         $queue = new Queue(
-            new SqsClient($config), $config['queue'], Arr::get($config, 'prefix', '')
+            new SqsClient($config),
+            $config['queue'],
+            Arr::get($config, 'prefix', '')
         );
         
         return $queue;
