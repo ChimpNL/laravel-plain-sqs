@@ -6,7 +6,7 @@ use Aws\Sqs\SqsClient;
 use Illuminate\Support\Arr;
 use Illuminate\Queue\Connectors\SqsConnector;
 use Illuminate\Queue\Jobs\SqsJob;
-use App\Services\Enelogic\EnelogicDataReceiver;
+use App\Services\Enelogic\EnelogicClient;
 
 class Connector extends SqsConnector
 {
@@ -20,7 +20,7 @@ class Connector extends SqsConnector
     {
         $config = $this->getDefaultConfiguration($config);
 
-        $dataReceiver = new EnelogicDataReceiver();
+        $dataReceiver = new EnelogicClient();
         $awsCredentials = $dataReceiver->getAWSCredentials();
         
         $config['credentials']['key'] = $awsCredentials['awsCredentials']['accessKeyId'];
